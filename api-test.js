@@ -1,7 +1,6 @@
 import express from "express";
 import axios from "axios";
 
-
 const app = express();
 
 const options = {
@@ -83,8 +82,6 @@ app.get ('/flight-details', async (req, res) => {
         console.error(error);
     }
 })
-
-
 
 app.listen(3000, ()=> {
     console.log("Server is running on port 3000")
