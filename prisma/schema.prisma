@@ -13,3 +13,63 @@ datasource db {
   provider = "postgresql"
 }
 
+model Location {
+  id          Int    @id @default(autoincrement())
+  city        String?
+  cityName    String
+  country     String?
+  countryName String
+
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+
+  airports    Airport[]     //airports in this location
+  attractions Attraction[]    //attraction in this location
+}
+
+model Airport {
+  id  Int   @id @default(autoincrement())
+  airportId String  @unique
+  aiportName String
+
+  locationId Int
+  location  Location @relation(fields: [locationId], references: [id], onDelete: Cascade)
+
+  departureFlights Flight[] @relation("DepartureAirport")
+  arrivalFlights   Flight[] @relation("ArrivalAirport")
+
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+}
+
+model Flight {
+  id Int @id @default(autoincrement())
+
+  flightName  String
+  flightNumber String
+  airlineName String
+
+  departureAirportId Int
+  departureAirport  Airport @relation("DepartureAirport", fields: [departureAirportId], references: [id], onDelete: Cascade)
+
+  arrivalAirportId Int
+  arrivalAirport  Airport @relation("ArrivalAirport", fields: [arrivalAirportId], references: [id], onDelete: Cascade)
+
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+}
+
+
+model Attraction {
+  id Int @id @default(autoincrement())
+  address String
+  city    String
+  country String
+  description String?
+
+  locationId  Int
+  location    Location @relation(fields: [locationId], references: [id], onDelete: Cascade)
+
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+}
