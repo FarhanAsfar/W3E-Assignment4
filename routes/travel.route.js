@@ -4,9 +4,8 @@ import { location } from "../controllers/location.js";
 const travelRouter = Router();
 
 
-// api/v1/travel/...
 // defining routes
-
+// api/v1/travel/...
 travelRouter.route("/search/:locationname").get(location);
 
 // travelRouter.get("/details/:id?", location);
