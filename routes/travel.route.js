@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { location } from "../controllers/locationSearch.controller.js";  
+import { locationSearch } from "../controllers/locationSearch.controller.js";  
 
 const travelRouter = Router();
 
