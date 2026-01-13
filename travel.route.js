@@ -10,7 +10,7 @@ const travelRouter = Router();
 
 travelRouter.get("/search/:locationname", location);
 
-travelRouter.get("/details/:id", details);
+travelRouter.get("/details/:id?", details);
 
 
 export {travelRouter}
