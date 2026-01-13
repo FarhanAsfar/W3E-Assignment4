@@ -1,5 +1,5 @@
 generator client {
-  provider = "prisma-client"
+  provider = "prisma-client-js"
   output   = "../generated/prisma"
 }
 
@@ -34,7 +34,7 @@ model Attraction {
 model Flight {
   id                                         Int      @id @default(autoincrement())
   flightName                                 String
-  flightNumber                               String
+  flightNumber                               String?
   airlineName                                String
   departureAirportId                         Int
   arrivalAirportId                           Int
@@ -51,7 +51,7 @@ model Location {
   country     String?
   countryName String
   createdAt   DateTime     @default(now())
-  updatedAt   DateTime
+  updatedAt   DateTime      @updatedAt
   Airport     Airport[]
   Attraction  Attraction[]
 }
