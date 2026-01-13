@@ -1,6 +1,6 @@
 import express from "express";
 import axios from "axios";
-import {prisma} from "./lib/prisma.js";
+import {prisma} from "../lib/prisma.js";
 
 const app = express();
 
