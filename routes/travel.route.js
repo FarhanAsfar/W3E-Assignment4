@@ -1,12 +1,12 @@
 import { Router } from "express";
-import { location } from "../controllers/location.js";  
+import { location } from "../controllers/locationSearch.controller.js";  
 
 const travelRouter = Router();
 
 
 // defining routes
 // api/v1/travel/...
-travelRouter.route("/search/:locationname").get(location);
+travelRouter.route("/search/:locationname").get(locationSearch);
 
 // travelRouter.get("/details/:id?", location);
 
