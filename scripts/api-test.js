@@ -186,6 +186,31 @@ async function findOrCreateAirport(airportData) {
   return airport;
 }
 
+//attraction
+
+const attraction = {
+  method: 'GET',
+  url: 'https://booking-com15.p.rapidapi.com/api/v1/attraction/searchLocation',
+  params: {
+    query: 'new',
+    languagecode: 'en-us'
+  },
+  headers: {
+    'x-rapidapi-key': 'e8bef105afmshdce85586e78ae3fp14c057jsn0e2040da93d5',
+    'x-rapidapi-host': 'booking-com15.p.rapidapi.com'
+  }
+};
+
+app.get('/flight-location', async (req, res) => {
+  try {
+    const response = await axios.request(options);
+
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: error.message });
+  }  
+});
+
 app.listen(3000, () => {
   console.log("Server is running on port 3000")
 });
