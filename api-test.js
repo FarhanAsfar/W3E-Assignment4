@@ -1,71 +1,78 @@
 import express from "express";
 import axios from "axios";
-// import { PrismaClient } from '@prisma/client';
-// const prisma = new PrismaClient();
+import {prisma} from "./lib/prisma.js";
 
 const app = express();
 
-const options = {
-  method: 'GET',
-  url: 'https://booking-com15.p.rapidapi.com/api/v1/flights/searchDestination',
-  params: {query: 'new'},
-  headers: {
-    'x-rapidapi-key': 'e8bef105afmshdce85586e78ae3fp14c057jsn0e2040da93d5',
-    'x-rapidapi-host': 'booking-com15.p.rapidapi.com'
-  }
-};
-
-
-app.get('/flight-location', async (req, res) => {
-    try {
-        const response = await axios.request(options);
-        console.log(response.data);
-
-        const airports = response.data.data.filter(item => item.type == 'AIRPORT');
-        console.log(airports[0]?.id);
-
-        const selectedAirport = airports[0];
-        // const savedFlight = await prisma.flight.create({
-        //   data: {
-
-        //   }
-        // })
-        
-        res.status(200).json(
-            response.data
-        );
-    } catch (error) {
-        console.error(error);
-    }
-})
-
-// const options2 = {
+// const options = {
 //   method: 'GET',
-//   url: 'https://booking-com15.p.rapidapi.com/api/v1/flights/searchFlights',
-//   params: {
-//     fromId: 'BOM.AIRPORT',
-//     toId: 'DEL.AIRPORT',
-//     departDate: '2026-01-23'
-//   },
+//   url: 'https://booking-com15.p.rapidapi.com/api/v1/flights/searchDestination',
+//   params: {query: 'new'},
 //   headers: {
 //     'x-rapidapi-key': 'e8bef105afmshdce85586e78ae3fp14c057jsn0e2040da93d5',
 //     'x-rapidapi-host': 'booking-com15.p.rapidapi.com'
 //   }
 // };
 
-// app.get('/flight-list', async (req, res) => {
+
+// app.get('/flight-location', async (req, res) => {
 //     try {
-//         const response = await axios.request(options2);
-        
-//         const tokens = response.data.data.flightOffers.map(flight => flight.token);
+//         const response = await axios.request(options);
+//         console.log(response.data);
+
+//         const airports = response.data.data.filter(item => item.type == 'AIRPORT');
+//         console.log(airports[0]?.id);
 
 //         res.status(200).json(
-//             tokens,
+//             response.data
 //         );
 //     } catch (error) {
 //         console.error(error);
 //     }
 // })
+
+const options2 = {
+  method: 'GET',
+  url: 'https://booking-com15.p.rapidapi.com/api/v1/flights/searchFlights',
+  params: {
+    fromId: 'BOM.AIRPORT',
+    toId: 'DEL.AIRPORT',
+    departDate: '2026-01-23'
+  },
+  headers: {
+    'x-rapidapi-key': 'e8bef105afmshdce85586e78ae3fp14c057jsn0e2040da93d5',
+    'x-rapidapi-host': 'booking-com15.p.rapidapi.com'
+  }
+};
+
+app.get('/flight-list', async (req, res) => {
+    try {
+        const response = await axios.request(options2);
+        
+        // const tokens = response.data.data.flightOffers.map(flight => flight.token);
+
+        const flightInfo = response.data.data.flightOffers;
+        const city = flightInfo[0].segments[0].departureAirport.city;
+        const cityName = flightInfo[0].segments[0].departureAirport.cityName;
+        const country = flightInfo[0].segments[0].departureAirport.country;
+        const countryName = flightInfo[0].segments[0].departureAirport.countryName;
+
+        const location = await prisma.location.create({
+            data: {
+                city: city,
+                cityName: cityName,
+                country: country,
+                countryName: countryName,
+            }
+        });
+        
+        res.status(200).json(
+            location,
+        );
+    } catch (error) {
+        console.error(error);
+    }
+})
 
 // const options3 = {
 //   method: 'GET',
