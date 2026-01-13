@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { locationSearch } from "../controllers/locationSearch.controller.js";  
+import { locationSearch,detailsController } from "../controllers/locationSearch.controller.js";  
 
 const travelRouter = Router();
 
@@ -8,7 +8,7 @@ const travelRouter = Router();
 // api/v1/travel/...
 travelRouter.route("/search/:locationname").get(locationSearch);
 
-// travelRouter.get("/details/:id?", location);
+travelRouter.route("/details/:id").get(detailsController);
 
 
 export {travelRouter}
